@@ -1,10 +1,9 @@
 import React from "react";
 import { Formik, Form, useField, ErrorMessage } from "formik";
 import { object, string, ref } from "yup";
-
-
+import { Link } from "react-router-dom";
 const RegisterValidation = object().shape({
-  username: string().required("Required"),
+  name: string().required("Required"),
   email: string()
     .required("Valid email required")
     .email("Valid email required"),
@@ -14,11 +13,11 @@ const RegisterValidation = object().shape({
     .oneOf([ref("password")], "Passwords do not match"),
 });
 
-const Input = ({ username, label, ...props }) => {
+const Input = ({ name, label, ...props }) => {
   const [field, meta] = useField(name);
   return (
     <div className='mb-4'>
-      <label className='block text-gray-700 text-sm font-bold' for={field.username}>
+      <label className='block text-gray-700 text-sm font-bold' htmlFor={field.name}>
         {label}
       </label>
       <input
@@ -29,7 +28,7 @@ const Input = ({ username, label, ...props }) => {
         {...props}
       />
       <ErrorMessage
-        name={field.username}
+        name={field.name}
         component='div'
         className='text-red-500 text-xs'
       />
@@ -37,16 +36,17 @@ const Input = ({ username, label, ...props }) => {
   );
 };
 
-function Register() {
+function RegistrationForm() {
   const handleSubmit = (values) => {
     console.log(values);
   };
 
   return (
-    <div className='form'>
+    <div className='form-group'>
+      <h1>Registration Form</h1>
       <Formik
         initialValues={{
-          username: "",
+          name: "",
           email: "",
           password: "",
           confirmPassword: "",
@@ -56,34 +56,36 @@ function Register() {
       >
         {() => {
           return (
-            <Form className='form-group'>
-              <h1 className='header'>Register</h1>
+            <Form className='rigster-form'>
               <Input
-                className='form-group-username'
-                name='username'
-                label='User Name'
+                placeholder='name'
+                className='name'
+                name='name'
+                // label='Name'
               />
-              <Input className='form-group-email'
-               name='email' 
-               label='Email' />
+              <Input placeholder='email' 
+               className='email'
+               name='email'  
+              />
               <Input
-                className='form-group-password'
+                placeholder='password'
+                className='password'
                 name='password'
-                label='Password'
                 type='password'
               />
               <Input
-                name='form-group-confirm-password'
-                label='Confirm Password'
+                placeholder='confirm password'
+                className='confirm-password'
+                name='confirmPassword'
                 type='password'
               />
-              <div className='btn-location'>
-                <button
-                  className='btn'
-                  type='submit'
-                >
+              <div className='form-btn'>
+                <button className='btn' type='submit'>
                   Register
                 </button>
+                <h1 className="option">Or</h1>
+                <p>If Account exist then</p><Link className='link' to='/login'><li>Login</li></Link>
+                 
               </div>
             </Form>
           );
@@ -93,4 +95,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default RegistrationForm;
