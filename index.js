@@ -4,6 +4,10 @@ const { User } = require('./db')
 const userRouter = require('./routes/routes')
 const { run } = require('./seed')
 
+const cors = require('cors');
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://localhost:3000']
+}));
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 

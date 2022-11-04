@@ -1,5 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
+import login, {getUsers} from "../../apiCalls";
+
 
 function validateEmail(value) {
   let error;
@@ -29,7 +31,7 @@ function validateUsername(value) {
        }}
        onSubmit={(values) => {
          // same shape as initial values
-         console.log(values);
+         login(values)
        }}
      >
        {({ errors, touched, isValidating }) => (
@@ -43,6 +45,7 @@ function validateUsername(value) {
            {errors.email && touched.email && <div>{errors.email}</div>}
 
            <Field
+             type='password'
              placeholder='password'
              className='password'
              name='password'

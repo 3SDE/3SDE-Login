@@ -11,8 +11,8 @@ const run = async () => {
     /* *************** SETUP *************** */
     await sequelize.sync({force: true});
 
-    const user = {email: 'johnDoe', password: 'test123'};
-    const user2 = {email: 'user_2', password: 'test123'};
+    const user = {email: 'johnDoe@gmail.com', password: 'test1234'};
+    const user2 = {email: 'user_2@gmail.com', password: 'test1234'};
 
     console.log("Let's start hashing some passwords!");
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import background from "/Users/nebyou_chakamckinsey.com/Desktop/3SDE-Login/logindb/src/components/img/sailboat img.jpeg";
+import background from "../img/sailboat img.jpeg";
 
 const Home = () => {
   return (
