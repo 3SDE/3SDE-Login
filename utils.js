@@ -19,8 +19,16 @@ const getUsers = async (req, res) => {
     res.json(users)
 }
 
+const userRegister = async (req, res) => {
+    const hashedPassword = await bcrypt.hash(req.body.password, 2)
+
+     const user = await User.create({email: req.body.email, password: hashedPassword})
+    res.json(user)
+}
+
 module.exports = {
     attemptLogin,
-    getUsers
+    getUsers,
+    userRegister
 
 }
