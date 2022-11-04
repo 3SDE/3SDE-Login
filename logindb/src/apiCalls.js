@@ -15,4 +15,15 @@ export const getUsers = async() => {
     const data = await response.json()
 }
 
+export const registerUsers = async (email, password) => {
+    const response = await fetch("http://localhost:4000/users/registration", {
+        method: "POST",
+        headers: {
+           'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(email, password)
+    })
+    const data = await response.json()
+    console.log(data)
+}
 export default login

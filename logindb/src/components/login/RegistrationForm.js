@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, useField, ErrorMessage } from "formik";
 import { object, string, ref } from "yup";
 import { Link } from "react-router-dom";
+import { registerUsers } from "../../apiCalls";
 const RegisterValidation = object().shape({
   name: string().required("Required"),
   email: string()
@@ -38,6 +39,9 @@ const Input = ({ name, label, ...props }) => {
 
 function RegistrationForm() {
   const handleSubmit = (values) => {
+    const newUser = {email: values.email, password: values.password}
+    registerUsers(newUser)
+
     console.log(values);
   };
 
