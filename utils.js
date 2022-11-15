@@ -26,9 +26,28 @@ const userRegister = async (req, res) => {
     res.json(user)
 }
 
+const confirmUser = async (req, res) => {
+    const user = await User.findOne({where: {email: req.body.email}})
+    if (user) res.json(user)
+    else res.json({"error": "user not found"})
+}
+
+const resetPassword = async (req, res) => {
+    const user = await User.findByPk(req.body.id)
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 2)
+
+    const updatedUser = await user.update({password: hashedPassword})
+
+    res.json(updatedUser)
+
+}
+
 module.exports = {
     attemptLogin,
     getUsers,
-    userRegister
+    userRegister,
+    confirmUser,
+    resetPassword
 
 }
