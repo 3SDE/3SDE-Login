@@ -1,19 +1,15 @@
 import React from "react";
 import { Formik, Form, useField, ErrorMessage } from "formik";
 import { object, string, ref } from "yup";
-import { Link, useNavigate } from "react-router-dom";
-import { registerUsers } from "../../apiCalls";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { registerUsers, resetPassword } from "../../apiCalls";
+import axios from 'axios';
 const RegisterValidation = object().shape({
-  name: string().required("Required"),
-  email: string()
-    .required("Valid email required")
-    .email("Valid email required"),
   password: string().min(8, "Required").required("Required"),
   confirmPassword: string()
     .required("Please confirm your password")
     .oneOf([ref("password")], "Passwords do not match"),
 });
-
 const Input = ({ name, label, ...props }) => {
   const [field, meta] = useField(name);
   return (
@@ -36,25 +32,23 @@ const Input = ({ name, label, ...props }) => {
     </div>
   );
 };
-
-function RegistrationForm() {
-  const navigate = useNavigate()
-
+function Reset() {
+    const location = useLocation();
+    const navigate = useNavigate();
   const handleSubmit = async (values) => {
-    const newUser = {email: values.email, password: values.password}
-    const registeredUser = await registerUsers(newUser)
-
-    console.log(registeredUser);
+    console.log(values)
+    const passwordBody = {id: location.state.id, password: values.password}
+    const newPassword = await resetPassword(passwordBody)
     navigate('/home')
   };
-
+  //  if (this.state.reset){
+  //     return <Redirect to={'/login'}  />
+  //    }
   return (
     <div className='form-group'>
-      <h1>Registration Form</h1>
+      <h1>Reset Password</h1>
       <Formik
         initialValues={{
-          name: "",
-          email: "",
           password: "",
           confirmPassword: "",
         }}
@@ -64,16 +58,6 @@ function RegistrationForm() {
         {() => {
           return (
             <Form className='rigster-form'>
-              <Input
-                placeholder='name'
-                className='name'
-                name='name'
-                // label='Name'
-              />
-              <Input placeholder='email' 
-               className='email'
-               name='email'  
-              />
               <Input
                 placeholder='password'
                 className='password'
@@ -88,11 +72,8 @@ function RegistrationForm() {
               />
               <div className='form-btn'>
                 <button className='btn' type='submit'>
-                  Register
+                  submit
                 </button>
-                <h1 className="option">Or</h1>
-                <p>If Account exist then</p><Link className='link' to='/login'><li>Login</li></Link>
-                 
               </div>
             </Form>
           );
@@ -101,5 +82,4 @@ function RegistrationForm() {
     </div>
   );
 }
-
-export default RegistrationForm;
+export default Reset;
